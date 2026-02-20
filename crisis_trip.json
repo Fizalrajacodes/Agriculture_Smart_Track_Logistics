@@ -1,0 +1,32 @@
+{
+    "scenario": "crisis_trip",
+    "telemetry": {
+        "temperature": {
+            "min": 30,
+            "max": 45,
+            "danger": true,
+            "unit": "celsius"
+        },
+        "humidity": {
+            "min": 70,
+            "max": 95,
+            "danger": true,
+            "unit": "percent"
+        },
+        "vibration": {
+            "min": 0.8,
+            "max": 1.5,
+            "danger": true,
+            "threshold": 0.5,
+            "unit": "G"
+        }
+    },
+    "status": "CRITICAL",
+    "expected_shelf_life": "0-2 days",
+    "alerts": [
+        "Cooling system failure detected",
+        "Temperature exceeds safe threshold",
+        "High vibration stress detected",
+        "Immediate rerouting recommended"
+    ]
+}

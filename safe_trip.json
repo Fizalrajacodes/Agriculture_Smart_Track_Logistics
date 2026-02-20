@@ -1,0 +1,25 @@
+{
+    "scenario": "safe_trip",
+    "telemetry": {
+        "temperature": {
+            "min": 2,
+            "max": 8,
+            "ideal": 4,
+            "unit": "celsius"
+        },
+        "humidity": {
+            "min": 40,
+            "max": 60,
+            "ideal": 50,
+            "unit": "percent"
+        },
+        "vibration": {
+            "min": 0.1,
+            "max": 0.3,
+            "threshold": 0.5,
+            "unit": "G"
+        }
+    },
+    "status": "NORMAL",
+    "expected_shelf_life": "10-14 days"
+}
