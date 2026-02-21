@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis Harvest | Spoilage Shield 3D</title>
+    <title>Aegis Harvest | Spoilage Shield </title>
 
     <!-- Three.js for 3D Rendering -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -855,6 +855,149 @@
         .stagger-children>*:nth-child(4) {
             animation-delay: 0.4s;
         }
+        /* Navigation Menu Bar */
+        
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 40px;
+            background: rgba(15, 20, 35, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        
+        .nav-item {
+            padding: 12px 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            color: var(--text-primary);
+            background: var(--glass);
+        }
+        
+        .nav-item.active {
+            background: var(--gradient-primary);
+            color: #000;
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.3);
+        }
+        
+        .nav-item i {
+            font-size: 1rem;
+        }
+        /* Likes Badge */
+        
+        .likes-badge {
+            background: var(--danger);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        /* Section Container */
+        
+        .section-container {
+            display: none;
+        }
+        
+        .section-container.active {
+            display: block;
+        }
+        /* Charts Grid */
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            padding: 20px;
+            backdrop-filter: blur(20px);
+        }
+        
+        .chart-card.wide {
+            grid-column: span 2;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .chart-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+        }
+        
+        .chart-container.wide {
+            height: 250px;
+        }
+        /* Page Layout */
+        
+        .page-layout {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 40px 40px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            color: var(--primary);
+        }
+        /* Two Column Layout */
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 1200px) {
+            .two-column,
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-card.wide {
+                grid-column: span 1;
+            }
+        }
     </style>
 </head>
 
@@ -896,121 +1039,340 @@
         </div>
     </header>
 
+    <!-- Navigation Menu Bar -->
+    <nav class="nav-menu">
+        <a class="nav-item active" onclick="showSection('home')">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <a class="nav-item" onclick="showSection('dashboard')">
+            <i class="fas fa-th-large"></i> Dashboard
+        </a>
+        <a class="nav-item" onclick="showSection('features')">
+            <i class="fas fa-star"></i> Features
+        </a>
+        <a class="nav-item" onclick="showSection('likes')">
+            <i class="fas fa-heart"></i> Likes
+            <span class="likes-badge">128</span>
+        </a>
+    </nav>
+
     <!-- Main Content -->
-    <main class="main-container">
-        <!-- 3D Scene Section -->
-        <div class="left-section">
-            <div class="scene-container">
-                <canvas id="three-canvas"></canvas>
-                <div class="scene-overlay">
-                    <div class="scene-stats">
-                        <div class="stat-badge">
-                            <i class="fas fa-cube"></i>
-                            <span id="sceneObjects">3D Active</span>
+    <div class="page-layout">
+        <!-- Home Section -->
+        <section id="home-section" class="section-container active">
+            <h2 class="section-title"><i class="fas fa-home"></i> Welcome to Aegis Harvest</h2>
+            <main class="main-container">
+                <!-- 3D Scene Section -->
+                <div class="left-section">
+                    <div class="scene-container">
+                        <canvas id="three-canvas"></canvas>
+                        <div class="scene-overlay">
+                            <div class="scene-stats">
+                                <div class="stat-badge">
+                                    <i class="fas fa-cube"></i>
+                                    <span id="sceneObjects">3D Active</span>
+                                </div>
+                                <div class="stat-badge">
+                                    <i class="fas fa-bolt"></i>
+                                    <span id="sceneFPS">60 FPS</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="stat-badge">
-                            <i class="fas fa-bolt"></i>
-                            <span id="sceneFPS">60 FPS</span>
+                    </div>
+
+                    <!-- Reroute Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-brain"></i> Smart Reroute Engine
+                            </div>
+                            <i class="fas fa-arrow-right" style="color: var(--text-secondary);"></i>
+                        </div>
+                        <div id="rerouteResult">
+                            <div class="loading">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Driver Recommendations Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-truck-driver"></i> Driver Recommendations
+                            </div>
+                        </div>
+                        <div id="recommendationsList" style="display: flex; flex-direction: column; gap: 10px;">
+                            <div class="telemetry-item" style="text-align: center; color: var(--text-secondary);">
+                                Waiting for recommendations...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Liability Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-gavel"></i> Liability Analysis
+                            </div>
+                        </div>
+                        <div id="damageAttribution" style="display: flex; flex-direction: column; gap: 8px;">
+                            <div class="damage-item" style="display: flex; justify-content: space-between; padding: 8px; background: var(--glass); border-radius: 8px;">
+                                <span>Temperature Damage</span>
+                                <span class="damage-percent" style="color: #ff4444;">0%</span>
+                            </div>
+                            <div class="damage-item" style="display: flex; justify-content: space-between; padding: 8px; background: var(--glass); border-radius: 8px;">
+                                <span>Vibration Damage</span>
+                                <span class="damage-percent" style="color: #ffaa00;">0%</span>
+                            </div>
+                            <div class="damage-item" style="display: flex; justify-content: space-between; padding: 8px; background: var(--glass); border-radius: 8px;">
+                                <span>Delay Damage</span>
+                                <span class="damage-percent" style="color: #00d9ff;">0%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Reroute Card -->
-            <div class="card">
+                <!-- Right Sidebar -->
+                <div class="cards-section">
+                    <!-- Telemetry Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-chart-line"></i> Live Telemetry
+                            </div>
+                        </div>
+                        <div class="telemetry-grid stagger-children">
+                            <div class="telemetry-item">
+                                <div class="telemetry-label">Temperature</div>
+                                <div class="telemetry-value temp" id="tempValue">--</div>
+                                <div class="telemetry-unit">°C</div>
+                            </div>
+                            <div class="telemetry-item">
+                                <div class="telemetry-label">Humidity</div>
+                                <div class="telemetry-value humidity" id="humidityValue">--</div>
+                                <div class="telemetry-unit">%</div>
+                            </div>
+                            <div class="telemetry-item">
+                                <div class="telemetry-label">Vibration</div>
+                                <div class="telemetry-value vibration" id="vibrationValue">--</div>
+                                <div class="telemetry-unit">G</div>
+                            </div>
+                            <div class="telemetry-item">
+                                <div class="telemetry-label">Distance</div>
+                                <div class="telemetry-value distance" id="distanceValue">--</div>
+                                <div class="telemetry-unit">km</div>
+                            </div>
+                        </div>
+                        <!-- New Service Data: Hybrid Engine -->
+                        <div class="telemetry-grid stagger-children" style="margin-top:15px;">
+                            <div class="telemetry-item" style="border-color: var(--primary);">
+                                <div class="telemetry-label">Physics Pred</div>
+                                <div class="telemetry-value" id="physicsPrediction" style="color: var(--primary);">--</div>
+                                <div class="telemetry-unit">days</div>
+                            </div>
+                            <div class="telemetry-item" style="border-color: var(--secondary);">
+                                <div class="telemetry-label">ML Pred</div>
+                                <div class="telemetry-value" id="mlPrediction" style="color: var(--secondary);">--</div>
+                                <div class="telemetry-unit">days</div>
+                            </div>
+                            <div class="telemetry-item" style="border-color: #ffaa00;">
+                                <div class="telemetry-label">Trust Score</div>
+                                <div class="telemetry-value" id="trustScore" style="color: #ffaa00;">--</div>
+                                <div class="telemetry-unit" id="trustGrade">-</div>
+                            </div>
+                            <div class="telemetry-item" style="border-color: #00ff88;">
+                                <div class="telemetry-label">Profit Saved</div>
+                                <div class="telemetry-value" id="profitSaved" style="color: #00ff88;">--</div>
+                                <div class="telemetry-unit" id="qualityGrade">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Shelf Life Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-hourglass-half"></i> Predictive Shelf-Life
+                            </div>
+                        </div>
+                        <div class="shelf-life-display">
+                            <div class="shelf-circle">
+                                <svg viewBox="0 0 180 180">
+                                    <circle class="shelf-circle-bg" cx="90" cy="90" r="80"/>
+                                    <circle class="shelf-circle-progress" id="shelfProgress" cx="90" cy="90" r="80"/>
+                                </svg>
+                                <div class="shelf-value" id="daysLeftValue">--</div>
+                            </div>
+                            <div class="shelf-label">Days Remaining</div>
+                            <div id="statusBadge" class="status-badge status-normal">Normal</div>
+                            <!-- Countdown Timer -->
+                            <div style="margin-top: 15px; padding: 10px; background: rgba(0,217,255,0.1); border-radius: 8px;">
+                                <div class="telemetry-label" style="font-size: 0.75rem;">COUNTDOWN</div>
+                                <div class="telemetry-value" id="countdownDisplay" style="color: var(--primary); font-size: 1.2rem;">--</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Future Predictions Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-crystal-ball"></i> Future Predictions
+                            </div>
+                        </div>
+                        <div class="telemetry-grid">
+                            <div class="telemetry-item">
+                                <div class="telemetry-label">+1 Hour</div>
+                                <div class="telemetry-value" id="future1h" style="color: var(--primary);">--</div>
+                                <div class="telemetry-unit">days</div>
+                            </div>
+                            <div class="telemetry-item">
+                                <div class="telemetry-label">+2 Hours</div>
+                                <div class="telemetry-value" id="future2h" style="color: var(--secondary);">--</div>
+                                <div class="telemetry-unit">days</div>
+                            </div>
+                            <div class="telemetry-item">
+                                <div class="telemetry-label">+4 Hours</div>
+                                <div class="telemetry-value" id="future4h" style="color: #ffaa00;">--</div>
+                                <div class="telemetry-unit">days</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Control Panel -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-sliders"></i> Control Panel
+                            </div>
+                        </div>
+                        <div class="control-panel">
+                            <div class="control-group">
+                                <div class="control-label">
+                                    <i class="fas fa-temperature-high"></i> Manual Temperature Control
+                                </div>
+                                <input type="range" id="tempSlider" class="temp-slider" min="0" max="50" value="5" oninput="updateTempFromSlider(this.value)">
+                                <div class="slider-labels">
+                                    <span>0°C</span>
+                                    <span>25°C</span>
+                                    <span>50°C</span>
+                                </div>
+                                <div class="temp-display">
+                                    <div class="temp-display-value" id="tempDisplay">5°C</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section-container">
+            <h2 class="section-title"><i class="fas fa-th-large"></i> Dashboard Overview</h2>
+            <div class="two-column">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-chart-pie"></i> Spoilage Analysis Ratio
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="spoilageChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-chart-bar"></i> Temperature vs Shelf Life
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="tempChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-card wide">
+                    <div class="chart-header">
+                        <span class="chart-title"><i class="fas fa-chart-line"></i> Survival Prediction Over Time</span>
+                    </div>
+                    <div class="chart-container wide">
+                        <canvas id="survivalChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features-section" class="section-container">
+            <h2 class="section-title"><i class="fas fa-star"></i> Advanced Features</h2>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <span class="chart-title"><i class="fas fa-brain"></i> AI Model Confidence</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="confidenceChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <span class="chart-title"><i class="fas fa-shield-alt"></i> Trust Score Distribution</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="trustChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card wide">
+                    <div class="chart-header">
+                        <span class="chart-title"><i class="fas fa-route"></i> Route Efficiency Metrics</span>
+                    </div>
+                    <div class="chart-container wide">
+                        <canvas id="routeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Likes Section -->
+        <section id="likes-section" class="section-container">
+            <h2 class="section-title"><i class="fas fa-heart"></i> Your Likes & Feedback</h2>
+            <div class="two-column">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-thumbs-up"></i> Popular Features
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="likesChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-star"></i> User Ratings
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="ratingsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 25px;">
                 <div class="card-header">
                     <div class="card-title">
-                        <i class="fas fa-brain"></i> Smart Reroute Engine
+                        <i class="fas fa-heartbeat"></i> System Health & Performance
                     </div>
-                    <i class="fas fa-arrow-right" style="color: var(--text-secondary);"></i>
                 </div>
-                <div id="rerouteResult">
-                    <div class="loading">
-                        <div class="loading-spinner"></div>
-                    </div>
+                <div class="chart-container wide" style="height: 200px;">
+                    <canvas id="healthChart"></canvas>
                 </div>
             </div>
-        </div>
-
-        <!-- Right Sidebar -->
-        <div class="cards-section">
-            <!-- Telemetry Card -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-chart-line"></i> Live Telemetry
-                    </div>
-                </div>
-                <div class="telemetry-grid stagger-children">
-                    <div class="telemetry-item">
-                        <div class="telemetry-label">Temperature</div>
-                        <div class="telemetry-value temp" id="tempValue">--</div>
-                        <div class="telemetry-unit">°C</div>
-                    </div>
-                    <div class="telemetry-item">
-                        <div class="telemetry-label">Humidity</div>
-                        <div class="telemetry-value humidity" id="humidityValue">--</div>
-                        <div class="telemetry-unit">%</div>
-                    </div>
-                    <div class="telemetry-item">
-                        <div class="telemetry-label">Vibration</div>
-                        <div class="telemetry-value vibration" id="vibrationValue">--</div>
-                        <div class="telemetry-unit">G</div>
-                    </div>
-                    <div class="telemetry-item">
-                        <div class="telemetry-label">Distance</div>
-                        <div class="telemetry-value distance" id="distanceValue">--</div>
-                        <div class="telemetry-unit">km</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Shelf Life Card -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-hourglass-half"></i> Predictive Shelf-Life
-                    </div>
-                </div>
-                <div class="shelf-life-display">
-                    <div class="shelf-circle">
-                        <svg viewBox="0 0 180 180">
-                            <circle class="shelf-circle-bg" cx="90" cy="90" r="80"/>
-                            <circle class="shelf-circle-progress" id="shelfProgress" cx="90" cy="90" r="80"/>
-                        </svg>
-                        <div class="shelf-value" id="daysLeftValue">--</div>
-                    </div>
-                    <div class="shelf-label">Days Remaining</div>
-                    <div id="statusBadge" class="status-badge status-normal">Normal</div>
-                </div>
-            </div>
-
-            <!-- Control Panel -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <i class="fas fa-sliders"></i> Control Panel
-                    </div>
-                </div>
-                <div class="control-panel">
-                    <div class="control-group">
-                        <div class="control-label">
-                            <i class="fas fa-temperature-high"></i> Manual Temperature Control
-                        </div>
-                        <input type="range" id="tempSlider" class="temp-slider" min="0" max="50" value="5" oninput="updateTempFromSlider(this.value)">
-                        <div class="slider-labels">
-                            <span>0°C</span>
-                            <span>25°C</span>
-                            <span>50°C</span>
-                        </div>
-                        <div class="temp-display">
-                            <div class="temp-display-value" id="tempDisplay">5°C</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+        </section>
+    </div>
 
     <script>
         // ============ STATE MANAGEMENT ============
@@ -1324,23 +1686,171 @@
             }
         }
 
+        // ============ ENHANCED API FUNCTIONS FOR INTELLIGENT LOGISTICS ============
+
+        // Fetch all analytics data from new endpoints
+        async function fetchAllAnalytics() {
+            try {
+                // Get telemetry with hybrid predictions
+                const telemetryResponse = await fetch('/api/telemetry');
+                const telemetry = await telemetryResponse.json();
+
+                // Get comprehensive analytics
+                const analyticsResponse = await fetch('/api/analytics');
+                const analytics = await analyticsResponse.json();
+
+                // Update displays
+                updateTelemetryDisplay(telemetry);
+                updateHybridEngineDisplay(telemetry);
+                updateFuturePredictions(telemetry);
+                updateCountdownTimer(telemetry);
+                updateTrustScore(telemetry);
+                updateRouteDisplay(analytics.route);
+                updateProfitDisplay(analytics.profit);
+                updateRecommendations(analytics.recommendations);
+                updateLiability(analytics.liability);
+                updateExplainableAI(analytics.explainable);
+
+                return {
+                    telemetry,
+                    analytics
+                };
+            } catch (e) {
+                console.error('Error fetching analytics:', e);
+                return null;
+            }
+        }
+
+        // Update hybrid engine display
+        function updateHybridEngineDisplay(data) {
+            // Update physics and ML predictions if elements exist
+            const physicsEl = document.getElementById('physicsPrediction');
+            const mlEl = document.getElementById('mlPrediction');
+            const hybridEl = document.getElementById('hybridPrediction');
+
+            if (physicsEl) physicsEl.textContent = data.physics_prediction ? data.physics_prediction.toFixed(1) : '-';
+            if (mlEl) mlEl.textContent = data.ml_prediction ? data.ml_prediction.toFixed(1) : '-';
+            if (hybridEl) hybridEl.textContent = data.hybrid_prediction ? data.hybrid_prediction.toFixed(1) : '-';
+        }
+
+        // Update future predictions display
+        function updateFuturePredictions(data) {
+            const future1h = document.getElementById('future1h');
+            const future2h = document.getElementById('future2h');
+            const future4h = document.getElementById('future4h');
+
+            if (future1h) future1h.textContent = data.future_1h ? data.future_1h.toFixed(1) : '-';
+            if (future2h) future2h.textContent = data.future_2h ? data.future_2h.toFixed(1) : '-';
+            if (future4h) future4h.textContent = data.future_4h ? data.future_4h.toFixed(1) : '-';
+        }
+
+        // Update countdown timer display
+        function updateCountdownTimer(data) {
+            const countdownDisplay = document.getElementById('countdownDisplay');
+            const countdownVerbose = document.getElementById('countdownVerbose');
+
+            if (countdownDisplay) countdownDisplay.textContent = data.countdown_display || '-';
+            if (countdownVerbose) countdownVerbose.textContent = data.countdown_verbose || '-';
+
+            // Update urgency styling
+            const urgency = data.urgency || 'NORMAL';
+            const urgencyEl = document.getElementById('urgencyLevel');
+            if (urgencyEl) {
+                urgencyEl.textContent = urgency;
+                urgencyEl.className = 'urgency-' + urgency.toLowerCase();
+            }
+        }
+
+        // Update trust score display
+        function updateTrustScore(data) {
+            const trustScore = document.getElementById('trustScore');
+            const trustGrade = document.getElementById('trustGrade');
+
+            if (trustScore) trustScore.textContent = data.trust_score ? data.trust_score.toFixed(1) : '-';
+            if (trustGrade) trustGrade.textContent = data.trust_grade || '-';
+        }
+
+        // Update route display
+        function updateRouteDisplay(route) {
+            const destName = document.getElementById('routeDestination');
+            const destReason = document.getElementById('routeReason');
+
+            if (destName) destName.textContent = route ? route.destination : '-';
+            if (destReason) destReason.textContent = route ? route.explanation : '-';
+        }
+
+        // Update profit display
+        function updateProfitDisplay(profit) {
+            const profitSaved = document.getElementById('profitSaved');
+            const qualityGrade = document.getElementById('qualityGrade');
+
+            if (profitSaved) profitSaved.textContent = profit ? profit.profit_saved_formatted : '-';
+            if (qualityGrade) qualityGrade.textContent = profit && profit.quality_grade ? profit.quality_grade.grade : '-';
+        }
+
+        // Update driver recommendations
+        function updateRecommendations(recommendations) {
+            const recContainer = document.getElementById('recommendationsList');
+            if (!recContainer || !recommendations) return;
+
+            const messages = recommendations.messages || [];
+            recContainer.innerHTML = messages.map(msg => `
+                <div class="recommendation-item ${recommendations.has_critical ? 'critical' : ''}">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>${msg}</span>
+                </div>
+            `).join('');
+        }
+
+        // Update liability display
+        function updateLiability(liability) {
+            const damageContainer = document.getElementById('damageAttribution');
+            if (!damageContainer || !liability) return;
+
+            const attr = liability.damage_attribution || {};
+            damageContainer.innerHTML = `
+                <div class="damage-item">
+                    <span>Temperature</span>
+                    <span class="damage-percent">${attr.temperature_damage_percent || 0}%</span>
+                </div>
+                <div class="damage-item">
+                    <span>Vibration</span>
+                    <span class="damage-percent">${attr.vibration_damage_percent || 0}%</span>
+                </div>
+                <div class="damage-item">
+                    <span>Delay</span>
+                    <span class="damage-percent">${attr.delay_damage_percent || 0}%</span>
+                </div>
+            `;
+        }
+
+        // Update explainable AI display
+        function updateExplainableAI(explainable) {
+            const explanationContainer = document.getElementById('aiExplanation');
+            if (!explanationContainer || !explainable) return;
+
+            const reasons = explainable.reroute_reason || [];
+            explanationContainer.innerHTML = reasons.map(r => `
+                <div class="ai-reason">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>${r.reason}</span>
+                </div>
+            `).join('');
+        }
+
         async function fetchTelemetry() {
             try {
-                const response = await fetch('/api/telemetry');
-                const data = await response.json();
+                // Use enhanced analytics endpoint
+                const analytics = await fetchAllAnalytics();
 
-                // Apply manual temp override
-                if (manualTemp !== null) {
-                    data.temperature = manualTemp;
-                    data.days_left = calculateDaysLeft(manualTemp, data.humidity, data.vibration);
+                if (analytics) {
+                    const data = analytics.telemetry;
+                    currentTelemetry = data;
+                    updateShelfLife(data.days_left);
                     updateStatus(data.days_left);
                 }
 
-                currentTelemetry = data;
-                updateTelemetryDisplay(data);
-                updateShelfLife(data.days_left);
-
-                return data;
+                return analytics;
             } catch (e) {
                 console.error('Error fetching telemetry:', e);
                 // Demo data fallback
@@ -1349,12 +1859,27 @@
                     humidity: 50,
                     vibration: 0.2,
                     days_left: 14,
+                    physics_prediction: 13.5,
+                    ml_prediction: 14.2,
+                    hybrid_prediction: 14.0,
+                    future_1h: 13.9,
+                    future_2h: 13.8,
+                    future_4h: 13.6,
+                    countdown_display: '14d 0h 0m',
+                    trust_score: 92.5,
+                    trust_grade: 'A',
                     status: 'NORMAL',
                     status_color: '#00cc66'
                 };
                 updateTelemetryDisplay(demoData);
                 updateShelfLife(demoData.days_left);
-                return demoData;
+                updateHybridEngineDisplay(demoData);
+                updateFuturePredictions(demoData);
+                updateCountdownTimer(demoData);
+                updateTrustScore(demoData);
+                return {
+                    telemetry: demoData
+                };
             }
         }
 
@@ -1532,6 +2057,413 @@
         }
 
         init();
+    </script>
+
+    <script>
+        // ============ NAVIGATION FUNCTIONS ============
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section-container').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active');
+
+            // Add active class to clicked nav item
+            event.target.closest('.nav-item').classList.add('active');
+
+            // Initialize charts when section is shown
+            if (sectionName === 'dashboard') {
+                initDashboardCharts();
+            } else if (sectionName === 'features') {
+                initFeatureCharts();
+            } else if (sectionName === 'likes') {
+                initLikesCharts();
+            }
+        }
+
+        // ============ CHART CONFIGURATIONS ============
+        const chartDefaults = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#8892b0',
+                        font: {
+                            family: 'Outfit'
+                        }
+                    }
+                }
+            }
+        };
+
+        // Dashboard Charts
+        let dashboardChartsInitialized = false;
+
+        function initDashboardCharts() {
+            if (dashboardChartsInitialized) return;
+            dashboardChartsInitialized = true;
+
+            // Spoilage Analysis Doughnut Chart
+            new Chart(document.getElementById('spoilageChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fresh', 'Partial', 'Spoiled'],
+                    datasets: [{
+                        data: [75, 18, 7],
+                        backgroundColor: ['#00ff88', '#ffaa00', '#ff4444'],
+                        borderColor: 'transparent',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    cutout: '65%',
+                    plugins: {
+                        ...chartDefaults.plugins,
+                        title: {
+                            display: true,
+                            text: 'Current Load Status',
+                            color: '#ffffff',
+                            font: {
+                                size: 14,
+                                family: 'Outfit'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Temperature vs Shelf Life Bar Chart
+            new Chart(document.getElementById('tempChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['0°C', '5°C', '10°C', '15°C', '20°C', '25°C'],
+                    datasets: [{
+                        label: 'Shelf Life (days)',
+                        data: [21, 14, 9, 6, 4, 2],
+                        backgroundColor: 'rgba(0, 217, 255, 0.7)',
+                        borderColor: '#00d9ff',
+                        borderWidth: 1,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Survival Prediction Line Chart
+            new Chart(document.getElementById('survivalChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Start', '2h', '4h', '6h', '8h', '10h', '12h'],
+                    datasets: [{
+                        label: 'Predicted Shelf Life',
+                        data: [14, 13.8, 13.5, 13.2, 12.8, 12.4, 12],
+                        borderColor: '#00d9ff',
+                        backgroundColor: 'rgba(0, 217, 255, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#00d9ff',
+                        pointRadius: 4
+                    }, {
+                        label: 'Critical Threshold',
+                        data: [5, 5, 5, 5, 5, 5, 5],
+                        borderColor: '#ff4444',
+                        borderDash: [5, 5],
+                        fill: false,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Feature Charts
+        let featureChartsInitialized = false;
+
+        function initFeatureCharts() {
+            if (featureChartsInitialized) return;
+            featureChartsInitialized = true;
+
+            // AI Confidence Radar Chart
+            new Chart(document.getElementById('confidenceChart'), {
+                type: 'radar',
+                data: {
+                    labels: ['Physics', 'ML', 'Hybrid', 'Trust', 'Survival'],
+                    datasets: [{
+                        label: 'Model Confidence',
+                        data: [92, 88, 95, 85, 90],
+                        backgroundColor: 'rgba(0, 217, 255, 0.2)',
+                        borderColor: '#00d9ff',
+                        pointBackgroundColor: '#00d9ff',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#00d9ff'
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            pointLabels: {
+                                color: '#8892b0'
+                            },
+                            ticks: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Trust Score Doughnut Chart
+            new Chart(document.getElementById('trustChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Excellent', 'Good', 'Fair', 'Poor'],
+                    datasets: [{
+                        data: [45, 30, 15, 10],
+                        backgroundColor: ['#00ff88', '#00d9ff', '#ffaa00', '#ff4444'],
+                        borderColor: 'transparent'
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    cutout: '60%'
+                }
+            });
+
+            // Route Efficiency Line Chart
+            new Chart(document.getElementById('routeChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Route A', 'Route B', 'Route C', 'Route D', 'Route E'],
+                    datasets: [{
+                        label: 'Distance (km)',
+                        data: [45, 60, 35, 80, 55],
+                        borderColor: '#00d9ff',
+                        backgroundColor: 'rgba(0, 217, 255, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Time (hours)',
+                        data: [0.75, 1.0, 0.5, 1.5, 0.9],
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Likes Charts
+        let likesChartsInitialized = false;
+
+        function initLikesCharts() {
+            if (likesChartsInitialized) return;
+            likesChartsInitialized = true;
+
+            // Popular Features Bar Chart
+            new Chart(document.getElementById('likesChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['3D View', 'Predictions', 'Reroute', 'Trust Score', 'Analytics'],
+                    datasets: [{
+                        label: 'User Likes',
+                        data: [156, 142, 138, 128, 115],
+                        backgroundColor: [
+                            'rgba(0, 217, 255, 0.7)',
+                            'rgba(0, 255, 136, 0.7)',
+                            'rgba(255, 170, 0, 0.7)',
+                            'rgba(167, 139, 250, 0.7)',
+                            'rgba(255, 68, 68, 0.7)'
+                        ],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // User Ratings Doughnut Chart
+            new Chart(document.getElementById('ratingsChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['5 Stars', '4 Stars', '3 Stars', '2 Stars', '1 Star'],
+                    datasets: [{
+                        data: [65, 22, 8, 3, 2],
+                        backgroundColor: ['#00ff88', '#00d9ff', '#ffaa00', '#ff8800', '#ff4444'],
+                        borderColor: 'transparent'
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    cutout: '55%'
+                }
+            });
+
+            // System Health Line Chart
+            new Chart(document.getElementById('healthChart'), {
+                type: 'line',
+                data: {
+                    labels: ['12:00', '12:15', '12:30', '12:45', '13:00', '13:15', '13:30'],
+                    datasets: [{
+                        label: 'CPU Usage',
+                        data: [45, 52, 48, 61, 55, 42, 38],
+                        borderColor: '#00d9ff',
+                        backgroundColor: 'rgba(0, 217, 255, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Memory',
+                        data: [62, 58, 65, 60, 68, 72, 70],
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Response Time',
+                        data: [120, 145, 135, 160, 148, 125, 118],
+                        borderColor: '#ffaa00',
+                        backgroundColor: 'rgba(255, 170, 0, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
     </script>
 </body>
 
