@@ -39,6 +39,7 @@ from services.countdown_timer import CountdownTimer
 from services.trust_score import TrustScoreEngine
 from services.liability_engine import LiabilityEngine
 from services.explainable_ai import ExplainableAI
+from services.market_pivot import MarketPivotEngine
 
 app = Flask(__name__, template_folder='templates')
 
@@ -71,6 +72,7 @@ countdown_timer = CountdownTimer()
 trust_engine = TrustScoreEngine()
 liability_engine = LiabilityEngine()
 explainable_ai = ExplainableAI()
+market_pivot_engine = MarketPivotEngine()
 
 # =============================================================================
 # CONFIGURATION
@@ -599,6 +601,71 @@ def get_status():
     return jsonify({'chaos_mode': is_chaos_mode})
 
 
+@app.route('/api/market-pivot', methods=['GET', 'POST'])
+def get_market_pivot():
+    """
+    Get Market Pivot / Emergency Rescue Analysis
+    
+    Calculates if cargo needs to be pivoted to secondary markets
+    based on remaining shelf life vs time to destination.
+    
+    GET: Uses current telemetry and default values
+    POST: Uses provided values for custom calculation
+    """
+    
+    if request.method == 'POST':
+        # Use provided values
+        data = request.get_json() or {}
+        cargo_value = data.get('cargo_value', 700000)
+        remaining_shelf_life_hrs = data.get('remaining_shelf_life_hrs', 3.0)
+        original_eta_hrs = data.get('original_eta_hrs', 4.0)
+        travel_times = data.get('travel_times', {})
+    else:
+        # Use current telemetry and defaults
+        telemetry = generate_telemetry()
+        
+        # Get hybrid prediction for remaining shelf life
+        hybrid_result = hybrid_engine.predict(
+            temperature=telemetry['temperature'],
+            humidity=telemetry['humidity'],
+            vibration=telemetry['vibration']
+        )
+        days_left = hybrid_result['final_days_left']
+        remaining_shelf_life_hrs = days_left * 24  # Convert days to hours
+        
+        # Default values
+        cargo_value = 700000  # ₹7 Lakhs
+        original_eta_hrs = 4.0
+        travel_times = {
+            'Plant_Alpha': 2.5,
+            'Market_Beta': 1.5,
+            'BioFuel_Gamma': 1.0,
+            'Premium_Supermarket': 4.0
+        }
+    
+    # Calculate emergency triage
+    result = market_pivot_engine.calculate_emergency_triage(
+        current_cargo_value=cargo_value,
+        remaining_shelf_life_hrs=remaining_shelf_life_hrs,
+        original_destination_eta_hrs=original_eta_hrs,
+        travel_times=travel_times
+    )
+    
+    # Get available markets
+    markets = market_pivot_engine.get_market_options()
+    
+    return jsonify({
+        'triage': result,
+        'available_markets': markets,
+        'input_values': {
+            'cargo_value': cargo_value,
+            'remaining_shelf_life_hrs': remaining_shelf_life_hrs,
+            'original_eta_hrs': original_eta_hrs,
+            'travel_times': travel_times
+        }
+    })
+
+
 @app.route('/')
 def index():
     """Render main dashboard"""
@@ -614,7 +681,7 @@ if __name__ == '__main__':
     print("Aegis Harvest - Spoilage Shield 2.0")
     print("="*60)
     print("Starting Intelligent Logistics System...")
-    print(f"✓ Services Loaded: {len([hybrid_engine, future_engine, survival_optimizer, profit_optimizer, driver_recommender, countdown_timer, trust_engine, liability_engine, explainable_ai])}")
+    print(f"✓ Services Loaded: {len([hybrid_engine, future_engine, survival_optimizer, profit_optimizer, driver_recommender, countdown_timer, trust_engine, liability_engine, explainable_ai, market_pivot_engine])}")
     print("="*60 + "\n")
     
     app.run(debug=True, port=5000)

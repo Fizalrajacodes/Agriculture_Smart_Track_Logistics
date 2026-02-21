@@ -513,6 +513,235 @@
             border: 1px solid rgba(255, 68, 68, 0.3);
             animation: critical-flash 0.5s infinite;
         }
+        /* Explainable AI Styles */
+        
+        .ai-badge {
+            padding: 4px 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .ai-section {
+            margin-bottom: 15px;
+        }
+        
+        .ai-section-title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .ai-reason {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: var(--glass);
+            border-radius: 10px;
+            border-left: 3px solid var(--primary);
+            transition: all 0.3s;
+        }
+        
+        .ai-reason:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .ai-reason i {
+            color: var(--primary);
+            margin-top: 2px;
+        }
+        
+        .ai-reason.profit {
+            border-left-color: var(--secondary);
+        }
+        
+        .ai-reason.profit i {
+            color: var(--secondary);
+        }
+        
+        .ai-placeholder {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 20px;
+        }
+        /* Market Pivot / Emergency Rescue Styles */
+        
+        .market-pivot-card {
+            border-color: rgba(255, 68, 68, 0.3);
+        }
+        
+        .severity-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .severity-badge.critical {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff4444;
+            animation: critical-pulse 1s infinite;
+        }
+        
+        .severity-badge.high {
+            background: rgba(255, 170, 0, 0.2);
+            color: #ffaa00;
+        }
+        
+        .severity-badge.medium {
+            background: rgba(0, 217, 255, 0.2);
+            color: #00d9ff;
+        }
+        
+        @keyframes critical-pulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+        
+        .pivot-status {
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .pivot-status.on-track {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+        }
+        
+        .pivot-status.rescue {
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid rgba(255, 170, 0, 0.3);
+            color: #ffaa00;
+        }
+        
+        .pivot-status.emergency {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: #ff4444;
+            animation: emergency-flash 0.5s infinite;
+        }
+        
+        @keyframes emergency-flash {
+            0%,
+            100% {
+                background: rgba(255, 68, 68, 0.1);
+            }
+            50% {
+                background: rgba(255, 68, 68, 0.2);
+            }
+        }
+        
+        .rescue-destination {
+            background: var(--glass);
+            border-radius: 12px;
+            padding: 15px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .rescue-destination .name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .rescue-destination .type {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .rescue-destination .travel-time {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+        
+        .financial-impact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .financial-item {
+            background: var(--glass);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .financial-item .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .financial-item .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 5px;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .financial-item .value.recovery {
+            color: var(--secondary);
+        }
+        
+        .financial-item .value.loss-prevented {
+            color: var(--primary);
+        }
+        
+        .financial-item .value.loss {
+            color: var(--danger);
+        }
+        
+        .alternatives-list {
+            margin-top: 10px;
+        }
+        
+        .alternatives-list .title {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .alternative-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: var(--glass);
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .alternative-item .name {
+            color: var(--text-secondary);
+        }
+        
+        .alternative-item .recovery {
+            color: var(--secondary);
+            font-weight: 600;
+        }
         
         @keyframes status-pulse {
             0%,
@@ -1131,6 +1360,38 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Explainable AI Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-lightbulb"></i> Explainable AI
+                            </div>
+                            <span class="ai-badge">WHY?</span>
+                        </div>
+                        <div id="aiExplanation" style="display: flex; flex-direction: column; gap: 12px;">
+                            <div class="ai-placeholder" style="text-align: center; color: var(--text-secondary); padding: 20px;">
+                                <i class="fas fa-robot" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                                <p>AI decisions will be explained here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Market Pivot / Emergency Rescue Card -->
+                    <div class="card market-pivot-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-life-ring"></i> Emergency Rescue
+                            </div>
+                            <span id="pivotSeverity" class="severity-badge" style="display: none;">CRITICAL</span>
+                        </div>
+                        <div id="marketPivotResult" style="display: flex; flex-direction: column; gap: 12px;">
+                            <div class="pivot-placeholder" style="text-align: center; color: var(--text-secondary); padding: 20px;">
+                                <i class="fas fa-search" style="font-size: 1.5rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                                <p>Analyzing rescue options...</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Right Sidebar -->
@@ -1699,6 +1960,10 @@
                 const analyticsResponse = await fetch('/api/analytics');
                 const analytics = await analyticsResponse.json();
 
+                // Get market pivot / emergency rescue data
+                const pivotResponse = await fetch('/api/market-pivot');
+                const pivotData = await pivotResponse.json();
+
                 // Update displays
                 updateTelemetryDisplay(telemetry);
                 updateHybridEngineDisplay(telemetry);
@@ -1710,10 +1975,12 @@
                 updateRecommendations(analytics.recommendations);
                 updateLiability(analytics.liability);
                 updateExplainableAI(analytics.explainable);
+                updateMarketPivot(pivotData);
 
                 return {
                     telemetry,
-                    analytics
+                    analytics,
+                    pivot: pivotData
                 };
             } catch (e) {
                 console.error('Error fetching analytics:', e);
@@ -1829,13 +2096,129 @@
             const explanationContainer = document.getElementById('aiExplanation');
             if (!explanationContainer || !explainable) return;
 
-            const reasons = explainable.reroute_reason || [];
-            explanationContainer.innerHTML = reasons.map(r => `
-                <div class="ai-reason">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>${r.reason}</span>
-                </div>
-            `).join('');
+            // Get reasons from both reroute and profit explanations
+            const rerouteReasons = explainable.reroute_reason || [];
+            const profitReasons = explainable.profit_explanation || [];
+
+            let html = '';
+
+            // Add reroute reasons
+            if (rerouteReasons.length > 0) {
+                html += '<div class="ai-section">';
+                html += '<div class="ai-section-title"><i class="fas fa-route"></i> Route Decision Reasons</div>';
+                html += rerouteReasons.map(r => `
+                    <div class="ai-reason">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>${r.reason || r}</span>
+                    </div>
+                `).join('');
+                html += '</div>';
+            }
+
+            // Add profit reasons
+            if (profitReasons.length > 0) {
+                html += '<div class="ai-section">';
+                html += '<div class="ai-section-title"><i class="fas fa-dollar-sign"></i> Profit Impact Reasons</div>';
+                html += profitReasons.map(r => `
+                    <div class="ai-reason profit">
+                        <i class="fas fa-chart-line"></i>
+                        <span>${r.reason || r}</span>
+                    </div>
+                `).join('');
+                html += '</div>';
+            }
+
+            // Show placeholder if no reasons
+            if (!html) {
+                html = `<div class="ai-placeholder" style="text-align: center; color: var(--text-secondary); padding: 20px;">
+                    <i class="fas fa-robot" style="font-size: 2rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                    <p>AI decisions will be explained here</p>
+                </div>`;
+            }
+
+            explanationContainer.innerHTML = html;
+        }
+
+        // Update Market Pivot / Emergency Rescue display
+        function updateMarketPivot(pivotData) {
+            const container = document.getElementById('marketPivotResult');
+            const severityBadge = document.getElementById('pivotSeverity');
+            if (!container || !pivotData) return;
+
+            const triage = pivotData.triage;
+            let html = '';
+
+            // Update severity badge
+            if (severityBadge) {
+                severityBadge.style.display = 'inline-block';
+                severityBadge.textContent = triage.severity || 'OK';
+                severityBadge.className = 'severity-badge ' + (triage.severity || '').toLowerCase();
+            }
+
+            // Status indicator
+            let statusClass = 'on-track';
+            if (triage.status === 'RESCUE_REQUIRED') statusClass = 'rescue';
+            if (triage.status === 'EMERGENCY_DUMP') statusClass = 'emergency';
+
+            html += `<div class="pivot-status ${statusClass}">
+                <i class="fas fa-${triage.rescue_needed ? 'exclamation-triangle' : 'check-circle'}"></i>
+                ${triage.message}
+            </div>`;
+
+            if (triage.rescue_needed && triage.rescue_destination) {
+                const dest = triage.rescue_destination;
+                html += `<div class="rescue-destination">
+                    <div class="name"><i class="fas fa-map-marker-alt"></i> ${dest.name}</div>
+                    <div class="type">${dest.type}</div>
+                    <div class="travel-time">
+                        <i class="fas fa-clock"></i> ${dest.travel_time_hrs} hrs travel time
+                        ${triage.time_buffer_hrs ? `(${triage.time_buffer_hrs.toFixed(1)} hrs buffer)` : ''}
+                    </div>
+                </div>`;
+
+                // Financial impact
+                html += `<div class="financial-impact">
+                    <div class="financial-item">
+                        <div class="label">Recovery</div>
+                        <div class="value recovery">${triage.recovery_percent.toFixed(0)}%</div>
+                    </div>
+                    <div class="financial-item">
+                        <div class="label">Loss Prevented</div>
+                        <div class="value loss-prevented">₹${(triage.loss_prevented / 100000).toFixed(2)}L</div>
+                    </div>
+                    <div class="financial-item">
+                        <div class="label">Recovered</div>
+                        <div class="value">₹${(triage.recoverable_value / 100000).toFixed(2)}L</div>
+                    </div>
+                    <div class="financial-item">
+                        <div class="label">Total Loss</div>
+                        <div class="value loss">₹${(triage.total_loss / 100000).toFixed(2)}L</div>
+                    </div>
+                </div>`;
+
+                // Show alternatives if available
+                if (triage.alternatives && triage.alternatives.length > 0) {
+                    html += `<div class="alternatives-list">
+                        <div class="title"><i class="fas fa-balance-scale"></i> Alternative Options</div>`;
+                    html += triage.alternatives.map(alt => `
+                        <div class="alternative-item">
+                            <span class="name">${alt.name}</span>
+                            <span class="recovery">${alt.recovery_percent.toFixed(0)}% (₹${(alt.recoverable_value/100000).toFixed(2)}L)</span>
+                        </div>
+                    `).join('');
+                    html += `</div>`;
+                }
+            } else {
+                // On track - show safety margin
+                html += `<div style="margin-top: 15px; text-align: center; color: var(--text-secondary);">
+                    <div style="font-size: 0.85rem;">Safety Margin</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--secondary);">
+                        ${triage.safety_margin_hrs ? triage.safety_margin_hrs.toFixed(1) : '0'} hrs
+                    </div>
+                </div>`;
+            }
+
+            container.innerHTML = html;
         }
 
         async function fetchTelemetry() {
