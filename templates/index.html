@@ -2323,9 +2323,48 @@
                 updateFuturePredictions(demoData);
                 updateCountdownTimer(demoData);
                 updateTrustScore(demoData);
+                
+                // Update telemetry history charts with demo data
+                updateDemoTelemetryCharts();
+                
+                // Update market pivot with demo data
+                const demoPivot = {
+                    triage: {
+                        status: 'ON_TRACK',
+                        message: 'Cargo will reach original destination in time',
+                        rescue_needed: false,
+                        safety_margin_hrs: 10.5,
+                        current_cargo_value: 700000,
+                        remaining_shelf_life_hrs: 336
+                    }
+                };
+                updateMarketPivot(demoPivot);
+                
                 return {
                     telemetry: demoData
                 };
+            }
+        }
+        
+        // Update demo telemetry charts
+        function updateDemoTelemetryCharts() {
+            if (typeof temperatureChart !== 'undefined' && temperatureChart) {
+                const labels = ['T-5', 'T-4', 'T-3', 'T-2', 'T-1', 'T0'];
+                const temps = [4.5, 5.0, 4.8, 5.2, 5.0, 5.0];
+                const humids = [48, 50, 52, 49, 51, 50];
+                const vibes = [0.2, 0.25, 0.22, 0.18, 0.2, 0.2];
+                
+                temperatureChart.data.labels = labels;
+                temperatureChart.data.datasets[0].data = temps;
+                temperatureChart.update('none');
+                
+                humidityChart.data.labels = labels;
+                humidityChart.data.datasets[0].data = humids;
+                humidityChart.update('none');
+                
+                vibrationChart.data.labels = labels;
+                vibrationChart.data.datasets[0].data = vibes;
+                vibrationChart.update('none');
             }
         }
 
