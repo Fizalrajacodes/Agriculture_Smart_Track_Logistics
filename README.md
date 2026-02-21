@@ -1,4 +1,4 @@
-# 🛡️ Aegis Harvest - Spoilage Shield
+# 🛡️ Aegis Harvest - Spoilage Shield 2.0
 
 ## Predictive Supply Chain Dashboard
 
@@ -15,6 +15,7 @@ Real-time telemetry monitoring:
 - 💧 **Humidity** - Track moisture levels
 - 📳 **Vibration** - Measure physical stress on cargo
 - 📍 **Distance** - Current distance to destination
+- 📊 **Real-time Charts** - Temperature, Humidity, Vibration history visualization
 
 ### 2. Predictive Shelf-Life (ML Model)
 Machine learning regression model that predicts **Days_Left** (Remaining Shelf Life) based on:
@@ -26,13 +27,36 @@ The model follows biological spoilage rules:
 - **Biological Decay Rule**: For every 10°C increase above 4°C, decay rate doubles
 - **Mechanical Stress Rule**: Vibration above 0.5G acts as 1.5x multiplier on decay rate
 
-### 3. Smart Reroute Engine
+### 3. Hybrid Physics + ML Engine
+Combines physics-based decay modeling with machine learning predictions for accurate shelf-life forecasting.
+
+### 4. Smart Reroute Engine
 Automated decision-making system that:
 - Calculates **Survival Margin (SM)** = Days_Left - Travel_Time
 - Evaluates multiple destination options
 - Considers road conditions (blocked roads = infinite travel time)
 - Factors in facility capacity (centers >90% capacity are high-risk)
 - Dumps cargo if all survival margins are negative
+
+### 5. Emergency Rescue / Market Pivot Engine
+When cargo is at risk of spoilage, automatically finds the best secondary market:
+- **Plant Alpha** (Juice Processor) - 65% value recovery
+- **Market Beta** (Wholesale) - 40% value recovery
+- **Bio-Fuel Gamma** (Ethanol) - 15% minimum recovery
+- Calculates **Loss Prevented** and **Recovery %**
+
+### 6. Explainable AI
+Transparent AI decisions with human-readable explanations:
+- Why reroute decisions were made
+- Profit savings explanations
+- Trust score breakdowns
+
+### 7. Transport Trust Score
+Real-time trust scoring based on:
+- Temperature deviations
+- Vibration levels
+- Humidity fluctuations
+- Chaos events
 
 ---
 
@@ -80,6 +104,7 @@ Navigate to `http://localhost:5000`
    - Shelf-life drops dramatically
    - Dashboard turns red (CRITICAL)
    - Smart Reroute Engine activates
+   - Emergency Rescue triggers if needed
    - Recommends best center for emergency offloading
 
 ### Manual Control (Slider)
@@ -95,7 +120,14 @@ Navigate to `http://localhost:5000`
 |----------|--------|-------------|
 | `/` | GET | Main dashboard |
 | `/api/telemetry` | GET | Get current sensor data |
+| `/api/telemetry-history` | GET | Get telemetry history for charts |
+| `/api/analytics` | GET | Get comprehensive analytics |
 | `/api/reroute` | GET | Get reroute recommendation |
+| `/api/future` | GET | Get future predictions |
+| `/api/profit` | GET | Get profit optimization |
+| `/api/trust` | GET | Get trust score |
+| `/api/liability` | GET | Get liability analysis |
+| `/api/market-pivot` | GET/POST | Get emergency rescue analysis |
 | `/api/chaos` | POST | Toggle chaos mode |
 | `/api/status` | GET | Get current chaos status |
 
@@ -109,8 +141,24 @@ SM = Days_Left - Travel_Time
 Decision Rules:
 1. If road is Blocked → Skip destination
 2. If Capacity > 90% → Skip destination (high risk)
-3. If all SM < 0 → Dump cargo (unsalvageable)
+3. If all SM < 0 → Trigger Emergency Rescue
 4. Otherwise → Select destination with highest SM
+```
+
+---
+
+## 🧠 Market Pivot / Emergency Rescue Logic
+
+```
+IF remaining_shelf_life_hrs >= original_eta_hrs:
+    STATUS = "ON_TRACK"
+ELSE:
+    Find market where travel_time < remaining_shelf_life_hrs
+    Select highest recovery_multiplier
+    If no markets reachable → Fall back to Bio-Fuel (minimum recovery)
+
+Recovery % = recovery_multiplier × 100
+Loss Prevented = cargo_value × recovery_multiplier
 ```
 
 ---
@@ -127,7 +175,21 @@ Agriculture/
 ├── crisis_trip.json      # Crisis scenario data
 ├── model.pkl             # Trained ML model (generated)
 ├── scaler.pkl            # Feature scaler (generated)
-└── aegis_harvest_dataset.csv  # Training data (generated)
+├── aegis_harvest_dataset.csv  # Training data (generated)
+├── services/
+│   ├── __init__.py
+│   ├── hybrid_engine.py           # Physics + ML hybrid prediction
+│   ├── future_prediction.py       # Short-term forecasting
+│   ├── survival_optimizer.py     # Route optimization
+│   ├── profit_optimizer.py       # Value preservation
+│   ├── driver_recommender.py     # Driver recommendations
+│   ├── countdown_timer.py       # Countdown display
+│   ├── trust_score.py           # Transport trust scoring
+│   ├── liability_engine.py      # Damage attribution
+│   ├── explainable_ai.py        # AI decision explanations
+│   └── market_pivot.py          # Emergency rescue logic
+└── templates/
+    └── index.html               # Main dashboard UI
 ```
 
 ---
@@ -156,8 +218,16 @@ Days_Left = Base_Shelf_Life / (Temp_Multiplier × Vibration_Multiplier × Humidi
 ## 🏆 Key Capabilities
 
 - ✅ Real-time ML predictions
+- ✅ Hybrid physics + ML engine
+- ✅ Future prediction forecasting
 - ✅ Automated emergency rerouting
+- ✅ Market Pivot / Emergency Rescue
+- ✅ Explainable AI decisions
+- ✅ Transport Trust Score
+- ✅ Liability Analysis
+- ✅ Driver Recommendations
 - ✅ Visual dashboard with status indicators
+- ✅ Real-time telemetry charts (Temperature, Humidity, Vibration)
 - ✅ Chaos button for emergency simulation
 - ✅ Manual temperature control slider
 - ✅ Survival margin calculations

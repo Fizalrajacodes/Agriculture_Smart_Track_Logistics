@@ -74,6 +74,15 @@ liability_engine = LiabilityEngine()
 explainable_ai = ExplainableAI()
 market_pivot_engine = MarketPivotEngine()
 
+# Telemetry history for charts
+telemetry_history = {
+    'temperature': [],
+    'humidity': [],
+    'vibration': [],
+    'timestamps': []
+}
+MAX_HISTORY = 20
+
 # =============================================================================
 # CONFIGURATION
 # =============================================================================
@@ -102,7 +111,7 @@ DEFAULT_FACILITIES = {
 
 def generate_telemetry():
     """Generate mock telemetry data based on chaos mode"""
-    global is_chaos_mode
+    global is_chaos_mode, telemetry_history
     
     if is_chaos_mode:
         ranges = CRISIS_TELEMETRY
@@ -116,6 +125,19 @@ def generate_telemetry():
         'timestamp': int(time.time()),
         'chaos_mode': is_chaos_mode
     }
+    
+    # Add to history for charts
+    telemetry_history['temperature'].append(telemetry['temperature'])
+    telemetry_history['humidity'].append(telemetry['humidity'])
+    telemetry_history['vibration'].append(telemetry['vibration'])
+    telemetry_history['timestamps'].append(telemetry['timestamp'])
+    
+    # Keep only last MAX_HISTORY entries
+    if len(telemetry_history['temperature']) > MAX_HISTORY:
+        telemetry_history['temperature'].pop(0)
+        telemetry_history['humidity'].pop(0)
+        telemetry_history['vibration'].pop(0)
+        telemetry_history['timestamps'].pop(0)
     
     # Add to trust engine history
     trust_engine.add_reading(telemetry)
@@ -663,6 +685,22 @@ def get_market_pivot():
             'original_eta_hrs': original_eta_hrs,
             'travel_times': travel_times
         }
+    })
+
+
+@app.route('/api/telemetry-history', methods=['GET'])
+def get_telemetry_history():
+    """
+    Get telemetry history for charts
+    
+    Returns the last 20 readings of temperature, humidity, and vibration
+    """
+    return jsonify({
+        'temperature': telemetry_history['temperature'],
+        'humidity': telemetry_history['humidity'],
+        'vibration': telemetry_history['vibration'],
+        'timestamps': telemetry_history['timestamps'],
+        'count': len(telemetry_history['temperature'])
     })
 
 

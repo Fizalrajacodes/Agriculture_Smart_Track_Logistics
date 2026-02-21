@@ -1532,7 +1532,41 @@
         <!-- Dashboard Section -->
         <section id="dashboard-section" class="section-container">
             <h2 class="section-title"><i class="fas fa-th-large"></i> Dashboard Overview</h2>
+
+            <!-- Telemetry Visualization Row -->
             <div class="two-column">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-thermometer-half"></i> Temperature History
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="temperatureChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-water"></i> Humidity History
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="humidityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="two-column">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-vibrate"></i> Vibration History
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="vibrationChart"></canvas>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
@@ -1541,16 +1575,6 @@
                     </div>
                     <div class="chart-container">
                         <canvas id="spoilageChart"></canvas>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-chart-bar"></i> Temperature vs Shelf Life
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="tempChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -1964,6 +1988,9 @@
                 const pivotResponse = await fetch('/api/market-pivot');
                 const pivotData = await pivotResponse.json();
 
+                // Get telemetry history for charts
+                await fetchTelemetryHistory();
+
                 // Update displays
                 updateTelemetryDisplay(telemetry);
                 updateHybridEngineDisplay(telemetry);
@@ -1985,6 +2012,42 @@
             } catch (e) {
                 console.error('Error fetching analytics:', e);
                 return null;
+            }
+        }
+
+        // Fetch and update telemetry history charts
+        async function fetchTelemetryHistory() {
+            try {
+                const response = await fetch('/api/telemetry-history');
+                const data = await response.json();
+
+                if (data.count > 0) {
+                    // Generate labels based on count
+                    const labels = data.temperature.map((_, i) => `T-${data.count - i - 1}`);
+
+                    // Update temperature chart
+                    if (temperatureChart) {
+                        temperatureChart.data.labels = labels;
+                        temperatureChart.data.datasets[0].data = data.temperature;
+                        temperatureChart.update('none');
+                    }
+
+                    // Update humidity chart
+                    if (humidityChart) {
+                        humidityChart.data.labels = labels;
+                        humidityChart.data.datasets[0].data = data.humidity;
+                        humidityChart.update('none');
+                    }
+
+                    // Update vibration chart
+                    if (vibrationChart) {
+                        vibrationChart.data.labels = labels;
+                        vibrationChart.data.datasets[0].data = data.vibration;
+                        vibrationChart.update('none');
+                    }
+                }
+            } catch (e) {
+                console.error('Error fetching telemetry history:', e);
             }
         }
 
@@ -2490,9 +2553,173 @@
         // Dashboard Charts
         let dashboardChartsInitialized = false;
 
+        // Chart instances for real-time updates
+        let temperatureChart, humidityChart, vibrationChart;
+
         function initDashboardCharts() {
             if (dashboardChartsInitialized) return;
             dashboardChartsInitialized = true;
+
+            // Temperature History Line Chart
+            temperatureChart = new Chart(document.getElementById('temperatureChart'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: [],
+                        borderColor: '#00d9ff',
+                        backgroundColor: 'rgba(0, 217, 255, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#00d9ff'
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        ...chartDefaults.plugins,
+                        title: {
+                            display: true,
+                            text: 'Temperature Over Time',
+                            color: '#ffffff',
+                            font: {
+                                size: 14,
+                                family: 'Outfit'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Humidity History Line Chart
+            humidityChart = new Chart(document.getElementById('humidityChart'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Humidity (%)',
+                        data: [],
+                        borderColor: '#00ff88',
+                        backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#00ff88'
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 0,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        ...chartDefaults.plugins,
+                        title: {
+                            display: true,
+                            text: 'Humidity Over Time',
+                            color: '#ffffff',
+                            font: {
+                                size: 14,
+                                family: 'Outfit'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Vibration History Line Chart
+            vibrationChart = new Chart(document.getElementById('vibrationChart'), {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Vibration (G)',
+                        data: [],
+                        borderColor: '#ffaa00',
+                        backgroundColor: 'rgba(255, 170, 0, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#ffaa00'
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255,255,255,0.1)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: '#8892b0'
+                            }
+                        }
+                    },
+                    plugins: {
+                        ...chartDefaults.plugins,
+                        title: {
+                            display: true,
+                            text: 'Vibration Over Time',
+                            color: '#ffffff',
+                            font: {
+                                size: 14,
+                                family: 'Outfit'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Load initial telemetry history
+            fetchTelemetryHistory();
 
             // Spoilage Analysis Doughnut Chart
             new Chart(document.getElementById('spoilageChart'), {
